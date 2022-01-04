@@ -13,9 +13,9 @@ All game functionalities are working, but the game is not finished yet
 Firstly, install pygame module: 
 
 ```bash
-pip3 install pygame
-# or
-pip install pygame
+ pip3 install pygame
+ # or
+ pip install pygame
 ```
 
 Then download the game, and cd to them:
