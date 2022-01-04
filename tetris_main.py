@@ -13,6 +13,8 @@ block_size = 30
 top_left_x = (screen_width - play_width) // 2
 top_left_y = screen_height - play_height - 50
 
+pygame.display.set_icon(pygame.image.load("tetris.png"))
+
 # shapes
 S = [['.....',
       '......',
@@ -285,7 +287,7 @@ def draw_window(surface, grid, score=0, last_score=0, fall_speed=270):
             pygame.draw.rect(surface, grid[i][j],
                              (top_left_x + j * block_size, top_left_y + i * block_size, block_size, block_size), 0)
 
-    pygame.draw.rect(surface, (255, 0, 0), (top_left_x, top_left_y, play_width, play_height), 5)
+    pygame.draw.rect(surface, (128, 128, 128), (top_left_x, top_left_y, play_width, play_height), 5)
 
     draw_grid(surface, grid)
 
