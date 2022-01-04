@@ -11,7 +11,7 @@ play_height = 600
 block_size = 30
 
 top_left_x = (screen_width - play_width) // 2
-top_left_y = screen_height - play_height
+top_left_y = screen_height - play_height - 50
 
 # shapes
 S = [['.....',
@@ -36,11 +36,11 @@ Z = [['.....',
       '.0...',
       '.....']]
 
-I = [['..0..',
+I = [['.....',
       '..0..',
       '..0..',
       '..0..',
-      '.....'],
+      '..0..'],
      ['.....',
       '0000.',
       '.....',
@@ -49,14 +49,14 @@ I = [['..0..',
 
 O = [['.....',
       '.....',
-      '.00..',
-      '.00..',
+      '..00.',
+      '..00.',
       '.....']]
 
 J = [['.....',
+      '.....',
       '.0...',
       '.000.',
-      '.....',
       '.....'],
      ['.....',
       '..00.',
@@ -75,9 +75,9 @@ J = [['.....',
       '.....']]
 
 L = [['.....',
+      '.....',
       '...0.',
       '.000.',
-      '.....',
       '.....'],
      ['.....',
       '..0..',
@@ -96,9 +96,9 @@ L = [['.....',
       '.....']]
 
 T = [['.....',
+      '.....',
       '..0..',
       '.000.',
-      '.....',
       '.....'],
      ['.....',
       '..0..',
@@ -257,29 +257,28 @@ def max_score():
     return score
 
 
-def draw_window(surface, grid, score=0, last_score=0):
+def draw_window(surface, grid, score=0, last_score=0, fall_speed=27):
     surface.fill((0, 0, 0))
     pygame.font.init()
-    font = pygame.font.SysFont('comicsans', 60)
+    font = pygame.font.SysFont('comicsans', 20)
     label = font.render('Tetris by @JKrecisz', 1, (255, 255, 255))
-    surface.blit(label, (top_left_x + play_width / 2 - (label.get_width() / 2), 30))
+    surface.blit(label, (screen_width - 130, screen_height - 20))
 
     # current score
     font = pygame.font.SysFont('comicsans', 30)
     label = font.render(f'Score: {score}', 1, (255, 255, 255))
+    sx = top_left_x - 180
+    surface.blit(label, (sx, 150))
 
-    sx = top_left_x + play_width + 50
-    sy = top_left_y + play_height / 2 - 100
-
-    surface.blit(label, (sx + 20, sy + 200))
+    # Speed
+    speed = ((-1)*fall_speed)/5 + 55
+    label = font.render(f'Speed: {int(speed)}', 1, (255, 255, 255))
+    surface.blit(label, (sx, 180))
 
     # high score
+    font = pygame.font.SysFont('comicsans', 33)
     label = font.render(f'High score: {last_score}', 1, (255, 255, 255))
-
-    sx = top_left_x - 200
-    sy = top_left_y + 200
-
-    surface.blit(label, (sx + 20, sy + 200))
+    surface.blit(label, (sx, 50))
 
     for i in range(len(grid)):
         for j in range(len(grid[i])):
@@ -365,8 +364,8 @@ def main(win):
             next_piece = get_shape()
             change_piece = False
             score += clear_rows(grid, locked_positions) * 10
-
-        draw_window(win, grid, score, last_score)
+        speed = fall_speed * 1000
+        draw_window(win, grid, score, last_score, speed)
         draw_next_shape(next_piece, win)
         pygame.display.update()
 
