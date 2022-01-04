@@ -117,7 +117,7 @@ T = [['.....',
       '.....']]
 
 all_shapes = [S, Z, I, O, J, L, T]
-shape_colors = [(0, 255, 0), (255, 0, 0), (0, 255, 255), (255, 255, 0), (255, 165, 0), (0, 0, 255), (128, 0, 128)]
+shape_colors = [(random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)) for _ in range(7)]
 
 
 class Piece(object):
@@ -228,7 +228,7 @@ def draw_next_shape(shape, surface):
     label = font.render('Next shape', 1, (255, 255, 255))
 
     sx = top_left_x + play_width + 50
-    sy = top_left_y + play_height / 2 - 100
+    sy = top_left_y
     format = shape.shape[shape.rotation % len(shape.shape)]
 
     for i, line in enumerate(format):
@@ -236,8 +236,8 @@ def draw_next_shape(shape, surface):
         for j, column in enumerate(row):
             if column == '0':
                 pygame.draw.rect(surface, shape.color,
-                                 (sx + j * block_size, sy + i * block_size, block_size, block_size), 0)
-    surface.blit(label, (sx + 10, sy - 30))
+                                 (sx + j * block_size, sy + i * block_size - 10, block_size, block_size), 0)
+    surface.blit(label, (sx + 5, sy))
 
 
 def update_score(new_score):
@@ -257,7 +257,7 @@ def max_score():
     return score
 
 
-def draw_window(surface, grid, score=0, last_score=0, fall_speed=27):
+def draw_window(surface, grid, score=0, last_score=0, fall_speed=270):
     surface.fill((0, 0, 0))
     pygame.font.init()
     font = pygame.font.SysFont('comicsans', 20)
