@@ -4,7 +4,9 @@ All game functionalities are working, but the game is not finished yet
 <br/><br/>
 
 ## First view of the game
-<img width="912" alt="Tetris" src="https://user-images.githubusercontent.com/93099511/148004728-e5c92117-2746-4132-8f73-cbff165463d6.png">
+<img width="912" alt="Tetris" src="https://user-images.githubusercontent.com/93099511/148222295-0590b564-a4ee-42e6-b447-1c364dbb7135.png">
+
+
 
 
 
