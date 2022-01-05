@@ -10,12 +10,15 @@ play_width = 300
 play_height = 600
 block_size = 30
 
+# helpful coordinates, top left game screen angle
 top_left_x = (screen_width - play_width) // 2
 top_left_y = screen_height - play_height - 50
 
+# Icon and caption settings
 pygame.display.set_icon(pygame.image.load("tetris.png"))
+pygame.display.set_caption('Tetris by @JKrecisz')
 
-# shapes
+# Shapes
 S = [['.....',
       '......',
       '..00..',
@@ -118,8 +121,10 @@ T = [['.....',
       '..0..',
       '.....']]
 
+# all shapes and their colors
 all_shapes = [S, Z, I, O, J, L, T]
 shape_colors = [(random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)) for _ in range(7)]
+
 
 
 class Piece(object):
@@ -142,7 +147,7 @@ def create_grid(locked_positions={}):
     return grid
 
 
-def convert_shape_format(shape):
+def rotate_shape(shape):
     positions = []
     format = shape.shape[shape.rotation % len(shape.shape)]
 
@@ -162,7 +167,7 @@ def valid_space(shape, grid):
     accepted_position = [[(j, i) for j in range(10) if grid[i][j] == (0, 0, 0)] for i in range(20)]
     accepted_position = [j for sub in accepted_position for j in sub]
 
-    formatted = convert_shape_format(shape)
+    formatted = rotate_shape(shape)
 
     for pos in formatted:
         if pos not in accepted_position:
@@ -226,7 +231,7 @@ def clear_rows(grid, locked):
 
 
 def draw_next_shape(shape, surface):
-    font = pygame.font.SysFont('comicsans', 30)
+    font = pygame.font.SysFont('Helvetica', 25)
     label = font.render('Next shape', 1, (255, 255, 255))
 
     sx = top_left_x + play_width + 50
@@ -238,7 +243,7 @@ def draw_next_shape(shape, surface):
         for j, column in enumerate(row):
             if column == '0':
                 pygame.draw.rect(surface, shape.color,
-                                 (sx + j * block_size, sy + i * block_size - 10, block_size, block_size), 0)
+                                 (sx + j * block_size, sy + i * block_size, block_size, block_size), 0)
     surface.blit(label, (sx + 5, sy))
 
 
@@ -262,12 +267,12 @@ def max_score():
 def draw_window(surface, grid, score=0, last_score=0, fall_speed=270):
     surface.fill((0, 0, 0))
     pygame.font.init()
-    font = pygame.font.SysFont('comicsans', 20)
+    font = pygame.font.SysFont('Helvetica', 16)
     label = font.render('Tetris by @JKrecisz', 1, (255, 255, 255))
-    surface.blit(label, (screen_width - 130, screen_height - 20))
+    surface.blit(label, (screen_width - 150, screen_height - 20))
 
-    # current score
-    font = pygame.font.SysFont('comicsans', 30)
+    # Current score
+    font = pygame.font.SysFont('Helvetica', 25)
     label = font.render(f'Score: {score}', 1, (255, 255, 255))
     sx = top_left_x - 180
     surface.blit(label, (sx, 150))
@@ -277,8 +282,8 @@ def draw_window(surface, grid, score=0, last_score=0, fall_speed=270):
     label = font.render(f'Speed: {int(speed)}', 1, (255, 255, 255))
     surface.blit(label, (sx, 180))
 
-    # high score
-    font = pygame.font.SysFont('comicsans', 33)
+    # High score
+    font = pygame.font.SysFont('Helvetica', 25)
     label = font.render(f'High score: {last_score}', 1, (255, 255, 255))
     surface.blit(label, (sx, 50))
 
@@ -295,7 +300,7 @@ def draw_window(surface, grid, score=0, last_score=0, fall_speed=270):
 def main(win):
     last_score = max_score()
     locked_positions = {}
-    grid = create_grid(locked_positions)
+    create_grid(locked_positions)
 
     change_piece = False
     run = True
@@ -351,7 +356,7 @@ def main(win):
                     if not (valid_space(current_piece, grid)):
                         current_piece.rotation -= 1
 
-        shape_position = convert_shape_format(current_piece)
+        shape_position = rotate_shape(current_piece)
 
         for i in range(len(shape_position)):
             x, y = shape_position[i]
@@ -383,17 +388,16 @@ def main_menu(win):
     run = True
     while run:
         win.fill((0, 0, 0))
-        draw_text_middle("Press Any Key To Play Again", 60, (255, 255, 255), win)
+        draw_text_middle("Press Any Key To Play", 40, (255, 255, 255), win)
         pygame.display.update()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
             if event.type == pygame.KEYDOWN:
                 main(win)
-
     pygame.display.quit()
 
 
 win = pygame.display.set_mode((screen_width, screen_height))
-pygame.display.set_caption('Tetris by @JKrecisz')
+
 main_menu(win)
