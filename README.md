@@ -1,6 +1,6 @@
 # Tetris
 It's my first game created in python by pygame module.
-All game functionalities are working, but the game is not finished yet
+
 <br/><br/>
 
 ## First view of the game
